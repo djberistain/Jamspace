@@ -49,7 +49,11 @@ kickButton.innerText = "Kick"
 kickButton.addEventListener("click", ()=> {
     const kickOscillator = audioContext.createOscillator()
 
-    kickOscillator.frequency.setValueAtTime(261.6, 0)
+    kickOscillator.frequency.setValueAtTime(150, 0)
+    kickOscillator.frequency.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + 0.5
+    )
     kickOscillator.connect(primaryGainControl)
     kickOscillator.start()
     kickOscillator(audioContext.currentTime + 0.5)
