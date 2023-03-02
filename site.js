@@ -39,8 +39,31 @@ snareButton.innerText = "Snare"
 snareButton.addEventListener("click", ()=> {
     const whiteNoiseSource = audioContext.createBufferSource();
     whiteNoiseSource.buffer = buffer;
-    whiteNoiseSource.connect(snareFilter);
+
+    const whiteNoiseGain = audioContext.createGain();
+    whiteNoiseGain.gain.setValueAtTime(1, audioContext.currentTime)
+    whiteNoiseGain.gain.exponentialRampToValueAtTime(
+        0.01,
+        audioContext.currentTime + 0.2
+    )
+    whiteNoiseSource.connect(whiteNoiseGain);
+    whiteNoiseGain.connect(snareFilter)
+
     whiteNoiseSource.start()
+    whiteNoiseSource.stop(audioContext.currentTime + 0.2)
+
+    const snareOscillator = audioContext.createOscillator()
+    snareOscillator.type = "triangle"
+    snareOscillator.frequency.setValueAtTime(250, audioContext.currentTime)
+    
+    const oscillatorGain = audioContext.createGain()
+    oscillatorGain.gain.setValueAtTime(1, audioContext.currentTime)
+    oscillatorGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime)
+    snareOscillator.connect(oscillatorGain)
+    oscillatorGain.connect(primaryGainControl)
+    snareOscillator.start()
+    snareOscillator.stop(audioContext.currentTime + 0.2)
+
 })
 document.body.appendChild(snareButton);
 
@@ -54,6 +77,14 @@ kickButton.addEventListener("click", ()=> {
         0.001,
         audioContext.currentTime + 0.5
     )
+
+    const kickGain = audioContext.createGain()
+    kickGain.gain.setValueAtTime(1, 0)
+    kickGain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + 0.5
+    )
+    kickGain.connect(primaryGainControl)
     kickOscillator.connect(primaryGainControl)
     kickOscillator.start()
     kickOscillator(audioContext.currentTime + 0.5)
