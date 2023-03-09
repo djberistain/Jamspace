@@ -1,5 +1,5 @@
 const audioContext = new AudioContext();
-
+var file
 const buffer = audioContext.createBuffer(
     1,
     audioContext.sampleRate * 1,
@@ -90,3 +90,22 @@ kickButton.addEventListener("click", ()=> {
     kickOscillator(audioContext.currentTime + 0.5)
 })
 document.body.appendChild(kickButton)
+
+function upload() {
+    let input = document.createElement("input");
+    input.type = "file";
+    input.onchange = () => {
+        file = Array.from(input.files)
+       //console.log(file[0])
+    }
+    input.click();
+}
+
+
+function test() {
+    console.log("Hello from the other side!")
+    console.log(file[0])
+    const track = audioContext.createMediaStreamDestination(file[0])
+    track.connect(audioContext.destination)
+    
+}
