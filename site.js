@@ -9,11 +9,25 @@ var track
 function checkInput(){ 
     let uploadInput = input.files[0]
     let link = URL.createObjectURL(uploadInput)
+    const biquadFilter = audioContext.createBiquadFilter()
+    const gainNode = audioContext.createGain()
 
     audio = new Audio(link)
 
     track = audioContext.createMediaElementSource(audio)
-    track.connect(audioContext.destination)
+    
+
+    track.connect(gainNode)
+    biquadFilter.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+
+    biquadFilter.gain.setTargetAtTime(400, audioContext.currentTime, 0)
+    biquadFilter.detune.setTargetAtTime(100, audioContext.currentTime, 0)
+    biquadFilter.type = 'lowpass'
+    biquadFilter.frequency.setTargetAtTime(2000, audioContext.currentTime, 0)
+    
+    gainNode.gain.setTargetAtTime(2, audioContext.currentTime, 0)
+    
 }
 
 function play() {
