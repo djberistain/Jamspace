@@ -2,7 +2,9 @@ const audioContext = new AudioContext()
 var playing = false
 var play_button = document.getElementById("play_button")
 var input = document.getElementById("in")
-var audio 
+var slider = document.getElementById("myRange")
+var gainNode = null
+var audio = null
 var track
 
 
@@ -10,7 +12,7 @@ function checkInput(){
     let uploadInput = input.files[0]
     let link = URL.createObjectURL(uploadInput)
     const biquadFilter = audioContext.createBiquadFilter()
-    const gainNode = audioContext.createGain()
+    gainNode = audioContext.createGain()
 
     audio = new Audio(link)
 
@@ -26,7 +28,7 @@ function checkInput(){
     biquadFilter.type = 'lowpass'
     biquadFilter.frequency.setTargetAtTime(2000, audioContext.currentTime, 0)
     
-    gainNode.gain.setTargetAtTime(2, audioContext.currentTime, 0)
+    gainNode.gain.setTargetAtTime(slider.value/100, audioContext.currentTime, 0)
     
 }
 
@@ -54,5 +56,11 @@ function click1() {
         playing = false
         play_button.innerText = "Play"
         stop()
+    }
+}
+
+slider.oninput = function() {
+    if (gainNode != null) {
+        gainNode.gain.setTargetAtTime(slider.value/100, audioContext.currentTime, 0)
     }
 }
