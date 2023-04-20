@@ -1,4 +1,4 @@
-import { query } from 'db.js';
+import { query } from '../../db.js';
 
 export default async function handler(req, res) {
   const { username, email, password } = req.body;
@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     const results = await query(
       `
       INSERT INTO sys.users(username, password, email)
-      VALUES (?, ?, ?)
+      VALUES ( ?, ?, ?)
       `,
       [username, password, email]
     );
