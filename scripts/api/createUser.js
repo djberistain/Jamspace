@@ -1,15 +1,15 @@
 import { query } from '../../lib/db';
 
 export default async function handler(req, res) {
-  const { name, email, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
     const results = await query(
       `
-      INSERT INTO users (username, password, email)
+      INSERT INTO sys.users(username, password, email)
       VALUES (?, ?, ?)
       `,
-      [username, email, password]
+      [username, password, email]
     );
     return res.status(200).json({ message: 'User created successfully' });
   } catch (e) {
