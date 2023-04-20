@@ -1,4 +1,4 @@
-import { query } from '../../lib/db';
+import { query } from 'db.js';
 
 export default async function handler(req, res) {
   const { username, email, password } = req.body;
