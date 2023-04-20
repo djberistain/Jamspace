@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   try {
     const results = await query(
       `
-      INSERT INTO sys.users (username, password, email)
+      INSERT INTO users (username, password, email)
       VALUES (?, ?, ?)
       `,
       [username, email, password]
