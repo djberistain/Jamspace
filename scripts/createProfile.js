@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   const { email, username, password } = req.body;
 
   connection.query(
-    'INSERT INTO users (email, username, password) VALUES (?, ?, ?)',
+    'INSERT INTO sys.users (email, username, password) VALUES (?, ?, ?)',
     [email, username, password],
     function(err, results, fields) {
       if (err) throw err;
