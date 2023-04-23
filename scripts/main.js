@@ -25,3 +25,4 @@ function openProfileCreate() {
 function closeProfileCreate() {
   document.getElementById("profileCreate-popup").style.display = "none";
 }
+
